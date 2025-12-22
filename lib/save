@@ -1,0 +1,114 @@
+                                Positioned(
+                                  top: 15,
+                                  left: 25,
+                                  child: Container(
+                                    height: 200,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        image: DecorationImage(
+                                            image: NetworkImage("https://image.tmdb.org/t/p/w500${controller.movieInformation['poster_path']}"),
+                                            fit: BoxFit.cover
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.black.withOpacity(0.9),
+                                              spreadRadius: 5,
+                                              blurRadius: 30,
+                                              offset: Offset(10, 10)
+                                          )
+                                        ]
+                                    ),
+                                  ),),
+                                Positioned(
+                                    top: 20,
+                                    left: 185,
+                                    child: SizedBox(
+                                      width: Get.width * 0.5,
+                                      child: Text.rich(
+                                          TextSpan(
+                                              children: [
+                                                TextSpan(text: "${controller.movieInformation['release_date']}".split('-')[0]),
+                                                TextSpan(text: ", "),
+                                                TextSpan(text: (controller.movieInformation['origin_country'] is List && controller.movieInformation['origin_country'].isNotEmpty
+                                                    ? controller.movieInformation['origin_country'].join(", ").toUpperCase() : "")),
+                                                TextSpan(text: ", "),
+                                                TextSpan(text: (controller.movieInformation['genres'] is List && controller.movieInformation['genres'].isNotEmpty)
+                                                    ? controller.movieInformation['genres'].map((e) => e['name']).join(", ") : "") ,]
+                                          )
+                                      ),
+                                    )
+                                ),
+                                Positioned(
+                                    top: 80,
+                                    left: 185,
+                                    child: Container(
+                                      width: 35,
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: controller.movieInformation["vote_average"] < 6.5 ? Colors.purple :
+                                              controller.movieInformation["vote_average"] > 6.5 ? Colors.yellow : Colors.green ,
+                                              width: 2
+                                          )
+                                      ),
+                                      child: Center(
+                                        child: Text("${controller.movieInformation["vote_average"].toStringAsFixed(1)}"),
+                                      ),
+                                    )
+                                ),
+                                Positioned(
+                                    top: 80,
+                                    left: 230,
+                                    child: Container(
+                                      width: 35,
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          border: Border.all(
+                                              color: Colors.green,
+                                              width: 2
+                                          )
+                                      ),
+                                      child: Center(
+                                        child: Text("${controller.movieInformation["original_language"]}".toUpperCase()),
+                                      ),
+                                    )
+                                ),
+                                Positioned(
+                                    top: 120,
+                                    left: 185,
+                                    child: SizedBox(
+                                      width: Get.width * 0.5,
+                                      child: Text.rich(
+                                          TextSpan(
+                                              children: [
+                                                TextSpan(text: "Status\n"),
+                                                TextSpan(text: "${controller.movieInformation['status']}",
+                                                    style: TextStyle(
+                                                        color: Colors.green
+                                                    )),
+                                              ]
+                                          )
+                                      ),
+                                    )
+                                ),
+                                Positioned(
+                                    top: 160,
+                                    left: 185,
+                                    child: SizedBox(
+                                      width: Get.width * 0.5,
+                                      child: Text.rich(
+                                          TextSpan(
+                                              children: [
+                                                TextSpan(text: "Revenue\n"),
+                                                TextSpan(text: formatter.format(controller.movieInformation['revenue'] ?? 0),
+                                                    style: TextStyle(
+                                                        color: Colors.green
+                                                    )),
+                                              ]
+                                          )
+                                      ),
+                                    )
+                                ),
