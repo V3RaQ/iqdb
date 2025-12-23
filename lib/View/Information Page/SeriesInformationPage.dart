@@ -37,14 +37,12 @@ class SeriesInformationPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Row(
                               children: [
-                                SizedBox(
-                                  width: 350,
+                                Expanded(
                                   child: Text("${controller.seriesInformation['name']}",
                                     style: TextStyle(
                                         fontSize: 18
                                     ),),
                                 ),
-                                Spacer(),
                                 Obx(() {
                                   return Container(
                                     width: 35,
