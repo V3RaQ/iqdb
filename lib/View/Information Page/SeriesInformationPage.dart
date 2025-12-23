@@ -69,111 +69,91 @@ class SeriesInformationPage extends StatelessWidget {
                             ),
                           ), // Movie Title and the Favorite Button
                           SizedBox(
-                            height: 230,
+                            height: Get.height * 0.3,
                             width: Get.width,
-                            child: Stack(
+                            child: Row(
+                              spacing: 15,
                               children: [
-                                Positioned(
-                                  top: 15,
-                                  left: 25,
-                                  child: controller.seriesInformation['poster_path'] == null ?
-                                  Container(
-                                    height: 200,
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.black.withOpacity(0.9),
-                                              spreadRadius: 5,
-                                              blurRadius: 30,
-                                              offset: Offset(10, 10)
-                                          ),
-                                        ]
-                                    ),
-                                    child: Center(child: Text("No Image"),),
-                                  )
-                                      :
-                                  Container(
-                                    height: 200,
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        image: DecorationImage(
-                                            image: NetworkImage("https://image.tmdb.org/t/p/w500${controller.seriesInformation['poster_path']}"),
-                                            fit: BoxFit.cover
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.black.withOpacity(0.9),
-                                              spreadRadius: 5,
-                                              blurRadius: 30,
-                                              offset: Offset(10, 10)
-                                          )
-                                        ]
-                                    ),
-                                  )),
-                                Positioned(
-                                    top: 20,
-                                    left: 185,
-                                    child: SizedBox(
+                                // Movie Poster
+                                Container(
+                                  height: 200,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      image: DecorationImage(
+                                          image: NetworkImage("https://image.tmdb.org/t/p/w500${controller.seriesInformation['poster_path']}"),
+                                          fit: BoxFit.cover
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black.withOpacity(0.9),
+                                            spreadRadius: 5,
+                                            blurRadius: 30,
+                                            offset: Offset(10, 10)
+                                        )
+                                      ]
+                                  ),
+                                ),
+                                // Movie Information's
+                                Column(
+                                  spacing: 10,
+                                  mainAxisAlignment: .start,
+                                  crossAxisAlignment: .start,
+                                  children: [
+                                    SizedBox(height: 15,),
+                                    // Movie Year and Film Classification
+                                    SizedBox(
                                       width: Get.width * 0.5,
                                       child: Text.rich(
                                           TextSpan(
                                               children: [
-                                                TextSpan(text: "${controller.seriesInformation['first_air_date']}".split('-')[0]),
+                                                TextSpan(text: "${controller.seriesInformation['release_date']}".split('-')[0]),
                                                 TextSpan(text: ", "),
-                                                TextSpan(text: (controller.seriesInformation['languages'] is List && controller.seriesInformation['languages'].isNotEmpty
-                                                    ? controller.seriesInformation['languages'].join(", ").toUpperCase() : "")),
+                                                TextSpan(text: (controller.seriesInformation['origin_country'] is List && controller.seriesInformation['origin_country'].isNotEmpty
+                                                    ? controller.seriesInformation['origin_country'].join(", ").toUpperCase() : "")),
                                                 TextSpan(text: ", "),
                                                 TextSpan(text: (controller.seriesInformation['genres'] is List && controller.seriesInformation['genres'].isNotEmpty)
                                                     ? controller.seriesInformation['genres'].map((e) => e['name']).join(", ") : "") ,]
                                           )
                                       ),
-                                    )
-                                ),
-                                Positioned(
-                                    top: 80,
-                                    left: 185,
-                                    child: Container(
-                                      width: 35,
-                                      height: 35,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              color: controller.seriesInformation["vote_average"] < 6.5 ? Colors.purple :
-                                              controller.seriesInformation["vote_average"] > 6.5 ? Colors.yellow : Colors.green ,
-                                              width: 2
-                                          )
-                                      ),
-                                      child: Center(
-                                        child: Text("${controller.seriesInformation["vote_average"].toStringAsFixed(1)}"),
-                                      ),
-                                    )
-                                ),
-                                Positioned(
-                                    top: 80,
-                                    left: 230,
-                                    child: Container(
-                                      width: 35,
-                                      height: 35,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                              color: Colors.green,
-                                              width: 2
-                                          )
-                                      ),
-                                      child: Center(
-                                        child: Text("${(controller.seriesInformation["original_language"]) ?? "No"}".toUpperCase()),
-                                      ),
-                                    )
-                                ),
-                                Positioned(
-                                    top: 120,
-                                    left: 185,
-                                    child: SizedBox(
-                                      width: Get.width * 0.5,
+                                    ),
+                                    // Movie Rating and Original Language
+                                    Row(
+                                      spacing: 10,
+                                      children: [
+                                        Container(
+                                          width: 35,
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  color: controller.seriesInformation["vote_average"] < 6.5 ? Colors.purple :
+                                                  controller.seriesInformation["vote_average"] > 6.5 ? Colors.yellow : Colors.green ,
+                                                  width: 2
+                                              )
+                                          ),
+                                          child: Center(
+                                            child: Text("${controller.seriesInformation["vote_average"].toStringAsFixed(1)}"),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 35,
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.rectangle,
+                                              border: Border.all(
+                                                  color: Colors.green,
+                                                  width: 2
+                                              )
+                                          ),
+                                          child: Center(
+                                            child: Text("${controller.seriesInformation["original_language"]}".toUpperCase()),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    // Movie Status
+                                    Flexible(
                                       child: Text.rich(
                                           TextSpan(
                                               children: [
@@ -185,31 +165,9 @@ class SeriesInformationPage extends StatelessWidget {
                                               ]
                                           )
                                       ),
-                                    )
-                                ), // Status Text
-                                Positioned(
-                                    top: 160,
-                                    left: 185,
-                                    child: SizedBox(
-                                      width: Get.width * 0.5,
-                                      // child: Text.rich(
-                                      //     TextSpan(
-                                      //         children: [
-                                      //           TextSpan(text: "Revenue\n"),
-                                      //           TextSpan(text: formatter.format(controller.seriesInformation['revenue']),
-                                      //               style: TextStyle(
-                                      //                   color: Colors.green
-                                      //               )),
-                                      //         ]
-                                      //     )
-                                      // ),
-                                    )
-                                ), // Status (Information)
-                                Positioned(
-                                    top: 160,
-                                    left: 185,
-                                    child: SizedBox(
-                                      width: Get.width * 0.5,
+                                    ),
+                                    // Movie Revenue
+                                    Flexible(
                                       child: Text.rich(
                                           TextSpan(
                                               children: [
@@ -222,10 +180,11 @@ class SeriesInformationPage extends StatelessWidget {
                                           )
                                       ),
                                     )
-                                ),
+                                  ],
+                                )
                               ],
                             ),
-                          ), // Movie Information's
+                          ),
                           Text("Original Title",
                             style: TextStyle(
                                 color: Colors.white.withOpacity(0.9)
