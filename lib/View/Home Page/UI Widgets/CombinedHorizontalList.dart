@@ -25,12 +25,24 @@ class CombinedHorizontalList extends StatelessWidget {
           spacing: 5,
           crossAxisAlignment: .start,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(listViewTitle,
-                style: TextStyle(
-                  fontSize: 18,
-                ),),
+            Row(
+              mainAxisAlignment: .spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(listViewTitle,
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),),
+                ),
+                TextButton(onPressed: (){},
+                    style: TextButton.styleFrom(
+                      elevation: 0,
+                      shadowColor: Colors.transparent,
+                      backgroundColor: Colors.transparent,
+                    ),
+                    child: Text("View More"))
+              ],
             ), // List Title
             SizedBox(
               height: 190,
