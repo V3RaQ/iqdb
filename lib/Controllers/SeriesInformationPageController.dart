@@ -21,7 +21,7 @@ class SeriesInformationController extends GetxController{
     trailers.clear();
     cast.clear();
     similarSeries.clear();
-    http.Response resMovie = await http.get(Uri.parse(
+    http.Response resSeries = await http.get(Uri.parse(
         "https://api.themoviedb.org/3/tv/$seriesID?api_key=0154f9c32da1f02deb6f0b5188be0b8a"
     ));
     http.Response resTrailer = await http.get(Uri.parse(
@@ -35,8 +35,8 @@ class SeriesInformationController extends GetxController{
     ));
     final data = json.decode(resTrailer.body)['results'];
     print(data);
-    if(resMovie.statusCode == 200){
-      seriesInformation.value = json.decode(resMovie.body);
+    if(resSeries.statusCode == 200){
+      seriesInformation.value = json.decode(resSeries.body);
       trailers.value = json.decode(resTrailer.body)['results'];
       cast.value = json.decode(resCast.body)['cast'];
       similarSeries.value = json.decode(resSimilarMovies.body)['results'];

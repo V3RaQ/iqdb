@@ -26,6 +26,7 @@ class ActorInformation extends StatelessWidget {
         ),
         centerTitle: true,
         backgroundColor: backgroundColor,
+        foregroundColor: Colors.white,
       ),
       body: SafeArea(
         child: SingleChildScrollView(

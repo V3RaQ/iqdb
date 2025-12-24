@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:iqdb/Config/Colors.dart';
 import 'package:iqdb/Controllers/MovieInformationPageController.dart';
 import 'package:iqdb/View/Information%20Page/ActorInformationPage.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,6 +20,51 @@ class MovieInformationPage extends StatelessWidget {
         decimalDigits: 2
     );
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: backgroundColor,
+        foregroundColor: Colors.white,
+        title: Obx(
+            (){
+              if(controller.isLoading.value){
+                return Center(child: CircularProgressIndicator(),);
+              }
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  mainAxisAlignment: .spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text("${controller.movieInformation['title']}",
+                        style: TextStyle(
+                            fontSize: 18
+                        ),),
+                    ),
+                    Obx(() {
+                      return Container(
+                        width: 35,
+                        height: 35,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                        ),
+                        child: Center(
+                          child: IconButton(onPressed: (){
+                            controller.clickedButton();
+                          },
+                              style: IconButton.styleFrom(
+                                  padding: EdgeInsets.zero
+                              ),
+                              icon: Icon(
+                                controller.isClicked.value ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
+                                color: Colors.red,)),
+                        ),
+                      );
+                    }),
+                  ],
+                ),
+              ); // Movie Title and the Favorite Button,
+            }
+        )
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
@@ -34,46 +80,13 @@ class MovieInformationPage extends StatelessWidget {
                         crossAxisAlignment: .start,
                         spacing: 10,
                         children: [
-                          SizedBox(height: 0,),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Row(
-                              children: [
-                                Flexible(
-                                  child: Text("${controller.movieInformation['title']}",
-                                    style: TextStyle(
-                                        fontSize: 18
-                                    ),),
-                                ),
-                                Spacer(),
-                                Obx(() {
-                                  return Container(
-                                    width: 35,
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                    ),
-                                    child: Center(
-                                      child: IconButton(onPressed: (){
-                                        controller.clickedButton();
-                                      },
-                                          style: IconButton.styleFrom(
-                                              padding: EdgeInsets.zero
-                                          ),
-                                          icon: Icon(
-                                            controller.isClicked.value ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
-                                            color: Colors.red,)),
-                                    ),
-                                  );
-                                }),
-                              ],
-                            ),
-                          ), // Movie Title and the Favorite Button
                           // Movie Poster and Information's
                           SizedBox(
-                            height: Get.height * 0.3,
+                            height: Get.height * 0.25,
                             width: Get.width,
                             child: Row(
+                              mainAxisAlignment: .start,
+                              crossAxisAlignment: .start,
                               spacing: 15,
                               children: [
                                 // Movie Poster
@@ -102,7 +115,6 @@ class MovieInformationPage extends StatelessWidget {
                                   mainAxisAlignment: .start,
                                   crossAxisAlignment: .start,
                                   children: [
-                                    SizedBox(height: 15,),
                                     // Movie Year and Film Classification
                                     SizedBox(
                                       width: Get.width * 0.5,

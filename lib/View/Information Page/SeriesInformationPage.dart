@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:iqdb/Config/Colors.dart';
 import 'package:iqdb/Controllers/SeriesInformationPageController.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'ActorInformationPage.dart';
 
 class SeriesInformationPage extends StatelessWidget {
   const SeriesInformationPage({super.key});
@@ -18,6 +21,49 @@ class SeriesInformationPage extends StatelessWidget {
         decimalDigits: 2
     );
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: backgroundColor,
+        foregroundColor: Colors.white,
+        title: Obx((){
+          if(controller.isLoading.value){
+            return Center(child: CircularProgressIndicator(),);
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              mainAxisAlignment: .spaceBetween,
+              children: [
+                Expanded(
+                  child: Text("${controller.seriesInformation['name']}",
+                    style: TextStyle(
+                        fontSize: 18
+                    ),),
+                ),
+                Obx(() {
+                  return Container(
+                    width: 35,
+                    height: 35,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                    ),
+                    child: Center(
+                      child: IconButton(onPressed: (){
+                        controller.clickedButton();
+                      },
+                          style: IconButton.styleFrom(
+                              padding: EdgeInsets.zero
+                          ),
+                          icon: Icon(
+                            controller.isClicked.value ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
+                            color: Colors.red,)),
+                    ),
+                  );
+                }),
+              ],
+            ),
+          ); // Movie Title and the Favorite Button
+        }),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
@@ -33,43 +79,12 @@ class SeriesInformationPage extends StatelessWidget {
                         crossAxisAlignment: .start,
                         spacing: 15,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text("${controller.seriesInformation['name']}",
-                                    style: TextStyle(
-                                        fontSize: 18
-                                    ),),
-                                ),
-                                Obx(() {
-                                  return Container(
-                                    width: 35,
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                    ),
-                                    child: Center(
-                                      child: IconButton(onPressed: (){
-                                        controller.clickedButton();
-                                      },
-                                          style: IconButton.styleFrom(
-                                              padding: EdgeInsets.zero
-                                          ),
-                                          icon: Icon(
-                                            controller.isClicked.value ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
-                                            color: Colors.red,)),
-                                    ),
-                                  );
-                                }),
-                              ],
-                            ),
-                          ), // Movie Title and the Favorite Button
                           SizedBox(
-                            height: Get.height * 0.3,
+                            height: Get.height * 0.25,
                             width: Get.width,
                             child: Row(
+                              mainAxisAlignment: .start,
+                              crossAxisAlignment: .start,
                               spacing: 15,
                               children: [
                                 // Movie Poster
@@ -98,14 +113,13 @@ class SeriesInformationPage extends StatelessWidget {
                                   mainAxisAlignment: .start,
                                   crossAxisAlignment: .start,
                                   children: [
-                                    SizedBox(height: 15,),
                                     // Movie Year and Film Classification
                                     SizedBox(
                                       width: Get.width * 0.5,
                                       child: Text.rich(
                                           TextSpan(
                                               children: [
-                                                TextSpan(text: "${controller.seriesInformation['release_date']}".split('-')[0]),
+                                                TextSpan(text: "${controller.seriesInformation['first_air_date']}".split('-')[0]),
                                                 TextSpan(text: ", "),
                                                 TextSpan(text: (controller.seriesInformation['origin_country'] is List && controller.seriesInformation['origin_country'].isNotEmpty
                                                     ? controller.seriesInformation['origin_country'].join(", ").toUpperCase() : "")),
@@ -258,17 +272,32 @@ class SeriesInformationPage extends StatelessWidget {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
                                       children: [
-                                        Container(
-                                          width: 125,
-                                          height: 200,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Colors.white
-                                              ),
-                                              image: DecorationImage(
-                                                  image: NetworkImage("https://image.tmdb.org/t/p/w500${controller.cast[index]['profile_path']}"),
-                                                  fit: BoxFit.cover
-                                              )
+                                        ElevatedButton(
+                                          onPressed: (){
+                                            Get.delete<SeriesInformationPage>();
+                                            Get.to(ActorInformation(),
+                                                arguments: controller.cast[index]['id'],
+                                                transition: Transition.fadeIn
+                                            );
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            elevation: 0,
+                                            shadowColor: Colors.transparent,
+                                            backgroundColor: Colors.transparent,
+                                            padding: .zero,
+                                          ),
+                                          child: Container(
+                                            width: 125,
+                                            height: 200,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.white
+                                                ),
+                                                image: DecorationImage(
+                                                    image: NetworkImage("https://image.tmdb.org/t/p/w500${controller.cast[index]['profile_path']}"),
+                                                    fit: BoxFit.cover
+                                                )
+                                            ),
                                           ),
                                         ),
                                         SizedBox(
